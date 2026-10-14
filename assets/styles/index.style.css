@@ -3,6 +3,7 @@
    e painel de conteúdo cinza-claro com campos de rótulo flutuante */
 
 :root {
+  color-scheme: light;
   --fundo: #cdeee6;
   --moldura: #ffffff;
   --lateral: #eef8f6;
@@ -26,8 +27,10 @@
   --raio: 4px;
 }
 
-/* Tema escuro: vale quando o <html> tem data-tema="escuro" */
+/* Tema escuro: vale quando o <html> tem data-tema="escuro".
+   color-scheme deixa campos e listas nativos escuros também. */
 :root[data-tema="escuro"] {
+  color-scheme: dark;
   --fundo: #0e1b1a;
   --moldura: #142120;
   --lateral: #1a2c2a;
