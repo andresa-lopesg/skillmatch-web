@@ -4,6 +4,7 @@ import { criarVaga } from "./motor.js";
 // O caminho do fetch é relativo à PÁGINA (index.html), não a este arquivo
 const URL_VAGAS = "./assets/data/vagas.json";
 const CHAVE_PERFIL = "skillmatch:perfil";
+const CHAVE_TEMA = "skillmatch:tema";
 
 // RF13 — fetch + async/await. Quem chama trata os estados (carregando/vazio/erro).
 export async function carregarVagas() {
@@ -47,6 +48,13 @@ export function limparPerfil() {
   localStorage.removeItem(CHAVE_PERFIL);
 }
 
+// Bônus — tema claro/escuro persistido
+export const salvarTema = (tema) => localStorage.setItem(CHAVE_TEMA, tema);
+// Primeira visita (null): a página sempre abre no tema claro
+export function carregarTema() {
+  const tema = localStorage.getItem(CHAVE_TEMA);
+  return tema === "escuro" ? "escuro" : "claro";
+}
 
 // Bônus — Browser API (Geolocation) embrulhada numa Promise.
 // Nada é salvo: a posição só é usada para calcular a distância até as vagas.

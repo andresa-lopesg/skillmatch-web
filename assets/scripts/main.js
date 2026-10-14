@@ -5,6 +5,8 @@ import {
   salvarPerfil,
   carregarPerfil,
   limparPerfil,
+  salvarTema,
+  carregarTema,
   obterLocalizacao
 } from "./dados.js";
 import * as ui from "./ui.js";
@@ -16,6 +18,7 @@ const perfilBox = document.querySelector("#resumo-perfil");
 const destaque = document.querySelector("#destaque");
 const filtroModalidade = document.querySelector("#filtro-modalidade");
 const ordenacao = document.querySelector("#ordenacao");
+const botaoTema = document.querySelector("#botao-tema");
 const botaoLimpar = document.querySelector("#botao-limpar");
 const botaoLocalizacao = document.querySelector("#botao-localizacao");
 
@@ -58,6 +61,19 @@ function aplicarFiltroEOrdem(resultados) {
   return copia;
 }
 
+// Mostra uma etapa por vez, como num cadastro em passos
+function mostrarPasso(numero) {
+  for (let i = 1; i <= 3; i++) {
+    document.querySelector(`#passo-${i}`).hidden = i !== numero;
+  }
+  ui.marcarEtapa(numero);
+  if (numero === 1) {
+    form.nome.focus();
+  } else {
+    document.querySelector(`#titulo-passo-${numero}`).focus();
+  }
+}
+
 async function analisar(candidato) {
   const lista = await obterVagas();
   if (lista === null) return; // erro já foi mostrado
@@ -73,8 +89,7 @@ async function analisar(candidato) {
     ui.renderPerfil(perfilBox, candidato, proximoIdAnalise());
     ui.renderDestaque(destaque, vagaIdeal, vagaCompleta, estudos);
     desenharCards(resultados, vagaIdeal.vaga.id);
-    document.querySelector("#passo-2").hidden = false;
-    document.querySelector("#passo-3").hidden = false;
+    mostrarPasso(2);
   });
 }
 
@@ -131,8 +146,12 @@ botaoLimpar.addEventListener("click", () => {
   ui.mostrarErros(form, {});
   areaCards.innerHTML = "";
   ui.esconderStatus(status);
-  document.querySelector("#passo-2").hidden = true;
-  document.querySelector("#passo-3").hidden = true;
+  mostrarPasso(1);
+});
+
+// Botões "Voltar", "Ver todas as vagas" e "Editar perfil" levam à etapa indicada em data-ir-para
+document.querySelectorAll("[data-ir-para]").forEach((botao) => {
+  botao.addEventListener("click", () => mostrarPasso(Number(botao.dataset.irPara)));
 });
 
 // Bônus — Geolocation, tratando permissão negada
@@ -148,9 +167,16 @@ botaoLocalizacao.addEventListener("click", async () => {
   }
 });
 
-// Ao abrir a página: já busca as vagas e recupera o perfil salvo
+botaoTema.addEventListener("click", () => {
+  const novo = document.documentElement.dataset.tema === "escuro" ? "claro" : "escuro";
+  salvarTema(novo);
+  ui.aplicarTema(novo, botaoTema);
+});
+
+// Ao abrir a página: aplica o tema, já busca as vagas e recupera o perfil salvo
 async function iniciar() {
   document.querySelector("#aviso-js").hidden = true; // se este código rodou, os módulos carregaram
+  ui.aplicarTema(carregarTema(), botaoTema);
   const perfilSalvo = carregarPerfil(); // null na primeira visita
   if (perfilSalvo !== null) {
     ui.preencherFormulario(form, perfilSalvo); // o perfil volta preenchido
