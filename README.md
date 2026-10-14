@@ -5,8 +5,8 @@ Aplicação web que compara as habilidades de quem está procurando vaga com os 
 Projeto Avaliativo do Módulo 01 — Desenvolvedor Front-End [React], Turma 03 (SENAI/SC).
 
 - **Aplicação publicada (GitHub Pages):** https://andresa-lopesg.github.io/skillmatch-web/
-<!-- PENDENTE (Andresa): trocar COLE_AQUI_O_LINK_DO_TRELLO e COLE_AQUI_O_LINK_DO_VIDEO pelos links reais antes da entrega -->
-- **Quadro Kanban (Trello):** [link do quadro](COLE_AQUI_O_LINK_DO_TRELLO)
+<!-- PENDENTE (Andresa): trocar COLE_AQUI_O_LINK_DO_VIDEO pelo link real antes da entrega -->
+- **Quadro Kanban (Trello):** [link do quadro](https://trello.com/b/UaK33teF)
 - **Vídeo de apresentação:** [assistir no Google Drive](COLE_AQUI_O_LINK_DO_VIDEO)
 
 
