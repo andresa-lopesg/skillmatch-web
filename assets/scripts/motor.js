@@ -24,7 +24,7 @@ export function criarCandidato({ nome, vagaInteresse, habilidades, experienciaAn
 
 // RF07 — classe base
 export class Vaga {
-  constructor({ id, empresa, cargo, requisitos, salario, modalidade, cidade }) {
+  constructor({ id, empresa, cargo, requisitos, salario, modalidade, cidade, lat, lon }) {
     this.id = id;
     this.empresa = empresa;
     this.cargo = cargo;
@@ -32,6 +32,7 @@ export class Vaga {
     this.salario = salario;
     this.modalidade = modalidade;
     this.cidade = cidade;
+    this.coordenadas = { lat, lon }; // usado no bônus de localização
   }
 
   exibirResumo() {
@@ -139,6 +140,18 @@ export function encontrarVagaIdeal(resultados) {
 // RF06 — find: primeira vaga (na ordem do ranking) em que a pessoa já atende tudo
 export function encontrarVagaCompleta(resultados) {
   return resultados.find((resultado) => resultado.atendeTodos);
+}
+
+// Bônus (Geolocation) — distância em km entre dois pontos (fórmula de Haversine)
+export function calcularDistanciaKm(origem, destino) {
+  const raioTerra = 6371;
+  const paraRad = (graus) => (graus * Math.PI) / 180;
+  const dLat = paraRad(destino.lat - origem.lat);
+  const dLon = paraRad(destino.lon - origem.lon);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(paraRad(origem.lat)) * Math.cos(paraRad(destino.lat)) * Math.sin(dLon / 2) ** 2;
+  return Math.round(raioTerra * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
 }
 
 // RF05 — recomendação (igual ao mini): quanto mais vagas exigem a habilidade, mais alto ela fica

@@ -143,7 +143,7 @@ function criarListaHabilidades(titulo, habilidades, modificador) {
 }
 
 function criarCard(resultado, idMelhor) {
-  const { vaga, percentual, classificacao, encontradas, faltantes } = resultado;
+  const { vaga, percentual, classificacao, encontradas, faltantes, distanciaKm } = resultado;
   // "Média compatibilidade" -> classe CSS "card--media"
   const nivel = classificacao.split(" ")[0].toLowerCase().replace("é", "e");
   const card = document.createElement("article");
@@ -180,7 +180,8 @@ function criarCard(resultado, idMelhor) {
 
   const detalhes = document.createElement("p");
   detalhes.className = "card__detalhes";
-  detalhes.textContent = `${vaga.modalidade} · ${vaga.cidade} · ${formatarSalario(vaga.salario)}`;
+  const distancia = distanciaKm === undefined ? "" : ` · a ${distanciaKm} km`;
+  detalhes.textContent = `${vaga.modalidade} · ${vaga.cidade}${distancia} · ${formatarSalario(vaga.salario)}`;
 
   card.append(
     topo,
