@@ -50,11 +50,10 @@ export function limparPerfil() {
 
 // Bônus — tema claro/escuro persistido
 export const salvarTema = (tema) => localStorage.setItem(CHAVE_TEMA, tema);
-// Primeira visita (null): segue o tema do sistema operacional
+// Primeira visita (null): a página sempre abre no tema claro
 export function carregarTema() {
   const tema = localStorage.getItem(CHAVE_TEMA);
-  if (tema !== null) return tema;
-  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "escuro" : "claro";
+  return tema === "escuro" ? "escuro" : "claro";
 }
 
 // Bônus — Browser API (Geolocation) embrulhada numa Promise.

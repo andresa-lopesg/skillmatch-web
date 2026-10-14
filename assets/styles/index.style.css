@@ -27,34 +27,9 @@
   --raio: 4px;
 }
 
-/* Tema escuro. Sem escolha salva, segue o sistema (funciona até sem JavaScript).
-   O botão grava data-tema="escuro" ou "claro" no <html>, e isso vence o tema do sistema.
+/* Tema escuro: só quando a pessoa escolhe no botão (data-tema="escuro" no <html>).
+   Sem escolha salva, a página abre no tema claro.
    color-scheme deixa campos e listas nativos escuros também. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-tema="claro"]) {
-    color-scheme: dark;
-    --fundo: #0e1b1a;
-    --moldura: #142120;
-    --lateral: #1a2c2a;
-    --painel: #172423;
-    --campo: #1d2c2b;
-    --texto: #e4efed;
-    --texto-suave: #9fb0ae;
-    --linha: #2a3b39;
-    --linha-forte: #3a4d4b;
-    --etapa-inativa: #2a3b39;
-    --destaque: #5cc4b4;
-    --destaque-forte: #7fd6c8;
-    --destaque-texto: #0b201d;
-    --alta: #6fd1c1;
-    --media: #e8b75e;
-    --baixa: #f08f80;
-    --ok-fundo: #1e3a35;
-    --falta-fundo: #3d2623;
-    --sombra: 0 1.75rem 3.5rem rgba(0, 0, 0, 0.45);
-  }
-}
-
 :root[data-tema="escuro"] {
   color-scheme: dark;
   --fundo: #0e1b1a;
@@ -276,16 +251,6 @@ a {
 
 :root[data-tema="escuro"] .icone-lua {
   display: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-tema="claro"]) .icone-sol {
-    display: block;
-  }
-
-  :root:not([data-tema="claro"]) .icone-lua {
-    display: none;
-  }
 }
 
 .passo {
