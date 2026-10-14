@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillMatch | Compare suas habilidades com vagas de front-end</title>
+  <meta name="description" content="SkillMatch compara as suas habilidades com vagas de desenvolvimento web, mostra o percentual de compatibilidade e recomenda o que estudar a seguir.">
+  <link rel="icon" href="./assets/img/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap">
+  <link rel="stylesheet" href="./assets/styles/index.style.css">
+  <script type="module" src="./assets/scripts/main.js"></script>
+</head>
+<body>
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+  <div class="app">
+    <div class="moldura">
+      <header class="lateral">
+        <img class="lateral__logo" src="./assets/img/logo.svg" alt="Logo do SkillMatch" width="104" height="28">
+        <h1>Encontrar vagas</h1>
+
+        <ol class="etapas" aria-label="Etapas">
+          <li class="etapa etapa--atual" id="etapa-1" aria-current="step">
+            <span class="etapa__marca" aria-hidden="true">1</span>
+            <span class="etapa__nome">Seu perfil</span>
+          </li>
+          <li class="etapa" id="etapa-2">
+            <span class="etapa__marca" aria-hidden="true">2</span>
+            <span class="etapa__nome">Vaga ideal</span>
+          </li>
+          <li class="etapa" id="etapa-3">
+            <span class="etapa__marca" aria-hidden="true">3</span>
+            <span class="etapa__nome">Todas as vagas</span>
+          </li>
+        </ol>
+      </header>
+
+      <main id="conteudo" class="conteudo">
+        <button type="button" id="botao-tema" class="botao-icone" aria-pressed="false" aria-label="Ativar tema escuro">
+          <svg class="icone-lua" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+            <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          </svg>
+          <svg class="icone-sol" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+
+        <p id="aviso-js" class="aviso-js">Os scripts não carregaram. Abra a página pelo Live Server do VS Code (botão direito no index.html → Open with Live Server).</p>
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+
+        <!-- Etapa 1 -->
+        <section id="passo-1" class="passo" aria-labelledby="titulo-passo-1">
+          <h2 id="titulo-passo-1" class="rotulo-secao">Seus dados</h2>
+          <form id="form-perfil" novalidate>
+            <div class="linha">
+              <div class="campo">
+                <input type="text" id="nome" name="nome" autocomplete="name" placeholder=" " required aria-describedby="erro-nome">
+                <label for="nome">Nome</label>
+                <p class="erro" id="erro-nome" aria-live="polite"></p>
+              </div>
+              <div class="campo campo--select">
+                <select id="area" name="area" required aria-describedby="erro-area">
+                  <option value="">Selecione</option>
+                  <option value="Front-End">Front-End</option>
+                  <option value="Back-End">Back-End</option>
+                  <option value="Full Stack">Full Stack</option>
+                  <option value="UI/UX">UI/UX</option>
+                </select>
+                <label for="area">Área de interesse</label>
+                <p class="erro" id="erro-area" aria-live="polite"></p>
+              </div>
+            </div>
+
+            <h3 class="rotulo-secao">Sua experiência</h3>
+            <div class="linha">
+              <div class="campo campo--largo">
+                <input type="text" id="habilidades" name="habilidades" placeholder=" " required aria-describedby="dica-habilidades erro-habilidades">
+                <label for="habilidades">Habilidades</label>
+                <p class="dica" id="dica-habilidades">Ex.: HTML, CSS, JavaScript, Git</p>
+                <p class="erro" id="erro-habilidades" aria-live="polite"></p>
+              </div>
+              <div class="campo campo--curto">
+                <input type="number" id="experiencia" name="experiencia" min="0" max="50" step="1" inputmode="numeric" placeholder=" " required aria-describedby="erro-experiencia">
+                <label for="experiencia">Anos de experiência</label>
+                <p class="erro" id="erro-experiencia" aria-live="polite"></p>
+              </div>
+            </div>
+
+            <div class="acoes">
+              <button type="button" id="botao-limpar" class="botao-texto">Limpar perfil salvo</button>
+              <button type="submit" class="botao">Analisar vagas</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Etapa 2 -->
+        <section id="passo-2" class="passo" aria-labelledby="titulo-passo-2" hidden>
+          <h2 id="titulo-passo-2" class="rotulo-secao" tabindex="-1">Vaga ideal</h2>
+          <div id="resumo-perfil" class="resumo"></div>
+          <div id="destaque" class="destaque"></div>
+          <div class="acoes">
+            <button type="button" class="botao-texto" data-ir-para="1">Voltar</button>
+            <button type="button" class="botao" data-ir-para="3">Ver todas as vagas</button>
+          </div>
+        </section>
+
+        <!-- Etapa 3 -->
+        <section id="passo-3" class="passo" aria-labelledby="titulo-passo-3" hidden>
+          <h2 id="titulo-passo-3" class="rotulo-secao" tabindex="-1">Todas as vagas</h2>
+          <div id="controles" class="controles">
+            <div class="campo campo--select">
+              <select id="filtro-modalidade">
+                <option value="todas">Todas</option>
+                <option value="Remoto">Remoto</option>
+                <option value="Híbrido">Híbrido</option>
+                <option value="Presencial">Presencial</option>
+              </select>
+              <label for="filtro-modalidade">Modalidade</label>
+            </div>
+            <div class="campo campo--select">
+              <select id="ordenacao">
+                <option value="compatibilidade">Compatibilidade</option>
+                <option value="salario">Maior salário</option>
+                <option value="empresa">Empresa (A–Z)</option>
+                <option value="distancia" disabled>Mais perto de mim</option>
+              </select>
+              <label for="ordenacao">Ordenar por</label>
+            </div>
+            <button type="button" id="botao-localizacao" class="botao-contorno">Usar minha localização</button>
+          </div>
+          <div id="lista-vagas" class="cards"></div>
+          <div class="acoes">
+            <button type="button" class="botao-texto" data-ir-para="2">Voltar</button>
+            <button type="button" class="botao" data-ir-para="1">Editar perfil</button>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <footer class="rodape">
+    <p>
+      <img src="./assets/img/icone-codigo.svg" alt="" width="16" height="16">
+      SkillMatch · Projeto Avaliativo do Módulo 01 · Front-End React T3 · SENAI/SC · Andresa Lopes
+    </p>
+    <nav aria-label="Links do projeto">
+      <ul>
+        <li><a href="https://github.com/andresa-lopesg/skillmatch-web">Código no GitHub</a></li>
+        <li><a href="https://github.com/andresa-lopesg/skillmatch-web#readme">Documentação</a></li>
+      </ul>
+    </nav>
+  </footer>
+</body>
+</html>

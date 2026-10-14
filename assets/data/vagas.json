@@ -1,0 +1,109 @@
+[
+  {
+    "id": 1,
+    "empresa": "Pixel Sul Tecnologia",
+    "cargo": "Desenvolvedor(a) Front-End",
+    "requisitos": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Git",
+      "Responsividade"
+    ],
+    "salario": 3200,
+    "modalidade": "Remoto",
+    "cidade": "Florianópolis/SC",
+    "lat": -27.5954,
+    "lon": -48.548,
+    "nivel": "Júnior"
+  },
+  {
+    "id": 2,
+    "empresa": "Ilha Digital",
+    "cargo": "Desenvolvedor(a) React",
+    "requisitos": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "React",
+      "Git",
+      "API REST"
+    ],
+    "salario": 4200,
+    "modalidade": "Híbrido",
+    "cidade": "São José/SC",
+    "lat": -27.6136,
+    "lon": -48.6366,
+    "nivel": "Júnior"
+  },
+  {
+    "id": 3,
+    "empresa": "Vale Software",
+    "cargo": "Estagiário(a) de Desenvolvimento Web",
+    "requisitos": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Lógica de programação"
+    ],
+    "salario": 1500,
+    "modalidade": "Presencial",
+    "cidade": "Blumenau/SC",
+    "lat": -26.9194,
+    "lon": -49.0661
+  },
+  {
+    "id": 4,
+    "empresa": "Norte Labs",
+    "cargo": "Desenvolvedor(a) Front-End",
+    "requisitos": [
+      "JavaScript",
+      "TypeScript",
+      "React",
+      "Testes",
+      "Git",
+      "Acessibilidade"
+    ],
+    "salario": 6500,
+    "modalidade": "Remoto",
+    "cidade": "Joinville/SC",
+    "lat": -26.3045,
+    "lon": -48.8487,
+    "nivel": "Pleno"
+  },
+  {
+    "id": 5,
+    "empresa": "Serra UX",
+    "cargo": "Desenvolvedor(a) de Interfaces",
+    "requisitos": [
+      "HTML",
+      "CSS",
+      "Acessibilidade",
+      "Figma",
+      "Responsividade"
+    ],
+    "salario": 3800,
+    "modalidade": "Híbrido",
+    "cidade": "Lages/SC",
+    "lat": -27.8157,
+    "lon": -50.3264,
+    "nivel": "Júnior"
+  },
+  {
+    "id": 6,
+    "empresa": "Litoral Commerce",
+    "cargo": "Desenvolvedor(a) Web",
+    "requisitos": [
+      "JavaScript",
+      "Node.js",
+      "SQL",
+      "Git",
+      "API REST"
+    ],
+    "salario": 4800,
+    "modalidade": "Presencial",
+    "cidade": "Itajaí/SC",
+    "lat": -26.9078,
+    "lon": -48.6619
+  }
+]
