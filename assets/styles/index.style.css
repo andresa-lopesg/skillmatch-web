@@ -173,6 +173,35 @@ a {
   font-size: 0.85rem;
 }
 
+.etapa--atual {
+  color: var(--texto);
+  font-weight: 700;
+}
+
+.etapa--atual .etapa__marca,
+.etapa--feita .etapa__marca {
+  background: var(--destaque);
+  color: var(--destaque-texto);
+}
+
+/* Etapa concluída: troca o número por um check desenhado com bordas */
+.etapa--feita .etapa__marca {
+  font-size: 0;
+}
+
+.etapa--feita .etapa__marca::before {
+  content: "";
+  width: 0.42rem;
+  height: 0.75rem;
+  border: solid currentColor;
+  border-width: 0 2px 2px 0;
+  transform: translateY(-1px) rotate(45deg);
+}
+
+.etapa--feita {
+  color: var(--texto);
+}
+
 /* ---------- Painel de conteúdo ---------- */
 .conteudo {
   position: relative;
@@ -683,6 +712,26 @@ select[aria-invalid="true"] {
   .etapas {
     flex-direction: column;
     gap: 0;
+  }
+
+  /* Linha vertical entre as etapas */
+  .etapa:not(:last-child) {
+    position: relative;
+    padding-bottom: 3rem;
+  }
+
+  .etapa:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: calc(0.95rem - 1px);
+    top: 2.35rem;
+    width: 2px;
+    height: 2.3rem;
+    background: var(--etapa-inativa);
+  }
+
+  .etapa--feita:not(:last-child)::after {
+    background: var(--destaque);
   }
 
   .conteudo {

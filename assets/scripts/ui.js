@@ -198,3 +198,17 @@ export function renderCards(container, resultados, idMelhor) {
   container.innerHTML = "";
   resultados.forEach((resultado) => container.append(criarCard(resultado, idMelhor)));
 }
+
+// Etapas do painel lateral: as anteriores ficam "feitas" e a atual em destaque
+export function marcarEtapa(atual) {
+  for (let i = 1; i <= 3; i++) {
+    const etapa = document.querySelector(`#etapa-${i}`);
+    etapa.classList.toggle("etapa--feita", i < atual);
+    etapa.classList.toggle("etapa--atual", i === atual);
+    if (i === atual) {
+      etapa.setAttribute("aria-current", "step");
+    } else {
+      etapa.removeAttribute("aria-current");
+    }
+  }
+}
