@@ -79,3 +79,85 @@ compatibilidade = (requisitos atendidos / total de requisitos) × 100
 A comparação ignora maiúsculas e minúsculas (`javascript` conta como `JavaScript`), e habilidades repetidas no formulário contam uma vez só. Uma vaga sem requisitos fica com 0%. Quando duas vagas têm o mesmo percentual, aparece primeiro a que tem o nível mais próximo da experiência da pessoa (até 1 ano: Júnior; de 2 a 4: Pleno; 5 ou mais: Sênior).
 
 A recomendação de estudo junta as habilidades que faltam em todas as vagas e mostra as três que mais aparecem.
+
+## Técnicas e tecnologias
+
+Só HTML, CSS e JavaScript puro, sem framework, sem TypeScript e sem build.
+
+**JavaScript**
+- Perfil do candidato como objeto; catálogo como array de objetos vindo do `vagas.json`.
+- Classe `Vaga` com construtor e métodos que usam `this.requisitos` (`obterFaltantes`, `obterEncontradas`, `atendeTodos`, `calcularCompatibilidade`).
+- Classe `VagaFrontend extends Vaga`: acrescenta o atributo `nivel` e sobrescreve `exibirResumo()` para mostrar nível e modalidade. O nível também é usado no desempate.
+- Métodos de array: `map` (gera um resultado por vaga e transforma o JSON em instâncias de `Vaga`), `filter` (separa encontradas e faltantes), `reduce` (acha a vaga ideal), `every` (confere se a pessoa atende todos os requisitos de uma vaga) e `find` (acha a primeira vaga em que ela já atende tudo), além de `forEach` e `sort`.
+- Laço `for` explícito para contar as habilidades que mais faltam.
+- Closure: `criarContador()` guarda quantas análises foram feitas na sessão.
+- Callback: `executarAnalise(candidato, vagas, aoTerminar)` recebe a função que desenha o resultado.
+- `fetch` com `async/await`, `try/catch` e `response.ok`, tratando os estados **carregando**, **vazio** e **erro**. As vagas já são buscadas ao abrir a página.
+- `localStorage` com `JSON.stringify`/`JSON.parse`, tratando o `null` da primeira visita e dados corrompidos (JSON inválido ou sem a lista de habilidades). Guardo só nome, área, habilidades e experiência, nada sensível.
+- Módulos ES com `import`/`export` e `<script type="module">`.
+
+**HTML, acessibilidade e SEO**
+- Landmarks (`header` no painel lateral, `main`, `section`, `footer` e um `nav` no rodapé com os links do projeto), um único `h1` e hierarquia de títulos.
+- `label for` em todos os campos, `lang="pt-BR"`, link "Pular para o conteúdo" e foco visível.
+- Erros do formulário ligados ao campo com `aria-describedby` e `aria-invalid`, e anunciados com `aria-live`.
+- Mensagens de carregando, vazio e erro numa região viva que fica sempre na página (`role="status"`; no erro vira `role="alert"`), escondida pelo CSS quando está vazia.
+- Logo com `alt` informativo e ícone do rodapé com `alt=""` (decorativo).
+- `title` e `meta description` no `<head>`.
+
+**CSS**
+- Mobile-first: o estilo base é o do celular e as media queries (`40em` e `64em`) ampliam para tablet e desktop.
+- Layout todo em Flexbox, em formato de cadastro por etapas: um painel lateral (o `header`) mostra **Seu perfil → Vaga ideal → Todas as vagas**, e a área principal mostra uma etapa por vez, com "Voltar" à esquerda e a ação principal à direita. No celular o painel fica em cima. Os cards usam `flex-wrap` e `gap`.
+- As etapas mudam conforme o uso: a atual fica destacada e as anteriores ganham um check.
+- Campos com rótulo flutuante: o `label` fica dentro do campo e sobe para a borda quando o campo recebe foco ou valor (seletor `:placeholder-shown`).
+- Fonte Lato (Google Fonts), com fontes do sistema como reserva.
+- Unidades fluidas (`rem`, `%`) e imagens com `max-width: 100%`. O título do painel e o do resumo do perfil usam `clamp()` para crescer junto com a tela.
+
+**Extras (bônus)**
+- Geolocation: o botão **Usar minha localização** calcula a distância até cada vaga e permite ordenar por "Mais perto de mim". Se a permissão for negada, aparece uma mensagem e as vagas continuam na ordem de compatibilidade. A posição não é salva.
+- Tema claro/escuro num botão só com ícone (lua/sol, com `aria-label` para leitor de tela). A página sempre abre no tema claro; se a pessoa trocar para o escuro, a escolha fica salva no `localStorage`. O `color-scheme` deixa os campos nativos escuros também.
+- Filtro por modalidade e ordenação por compatibilidade, salário, empresa ou distância.
+
+**Conferência**
+- Acessibilidade e SEO conferidos no Lighthouse durante o desenvolvimento.
+- Testado no modo responsivo do DevTools (celular, tablet e desktop), sem rolagem horizontal.
+
+## Organização e versionamento
+
+As tarefas ficaram no quadro do Trello (link no topo). No Git usei uma branch `develop` para juntar o trabalho e uma feature branch para cada parte, todas mantidas no repositório depois do merge:
+
+| Branch | Objetivo |
+| --- | --- |
+| `main` | código final, recebe a `develop` quando o trabalho fica pronto |
+| `develop` | junta as branches de cada tarefa durante o desenvolvimento |
+| `feature/estrutura-html` | página semântica, formulário e SEO |
+| `feature/motor-modulos` | motor do mini-projeto convertido em módulo ES |
+| `feature/dados-fetch-storage` | catálogo `vagas.json`, fetch e localStorage |
+| `feature/interface-dom` | validação do formulário e render dos cards |
+| `feature/estilos-responsivos` | CSS mobile-first em Flexbox |
+| `feature/motor-geolocalizacao` | métodos `every`/`find` no motor, coordenadas das vagas e localização do navegador |
+| `feature/novo-layout` | navegação entre as etapas do painel lateral e botão de tema com ícone |
+| `fix/tema-escuro` | correção do tema escuro nos campos e listas nativos (`color-scheme`) |
+| `fix/tema-sistema-e-icone` | tema seguindo o sistema na primeira visita, com o ícone trocando junto |
+| `fix/tema-claro-padrao` | página sempre abre no tema claro; o escuro só pelo botão |
+| `docs/readme` | documentação do projeto |
+
+O código final está mergeado na `main`.
+
+## Uso de IA
+
+Usei IA como apoio em várias partes do projeto:
+
+- gerar o catálogo fictício do `vagas.json`;
+- adaptar o motor do mini-projeto para módulos e montar a primeira versão da tela;
+- na revisão final, comparar o projeto com as instruções da avaliação e apontar o que faltava;
+- corrigir o que foi apontado: cor e anúncio das mensagens de status, foco visível nos campos, perfil salvo com formato inválido, vaga sem requisitos e habilidades repetidas;
+- deixar o tema claro como padrão, aplicar `clamp()` nos títulos e atualizar este README.
+
+Revisei e testei cada parte no navegador e no modo responsivo do DevTools. Também conferi se nada saía do escopo do Módulo 01 (sem framework, sem Grid, sem TypeScript) e mantive os nomes e a lógica que eu já tinha escrito no mini.
+
+## O que pode melhorar
+
+- Normalizar sinônimos de habilidades (por exemplo, "JS" e "JavaScript").
+- Dar peso diferente para requisitos obrigatórios e desejáveis.
+- Buscar as vagas de uma API real em vez de um arquivo local.
+- Mostrar as vagas num mapa.
