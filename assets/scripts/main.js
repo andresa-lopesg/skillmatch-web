@@ -63,9 +63,9 @@ async function analisar(candidato) {
   }
 
   // RF08 — callback: a função passada roda quando a análise termina
-  executarAnalise(candidato, lista, ({ resultados, vagaIdeal, estudos }) => {
+  executarAnalise(candidato, lista, ({ resultados, vagaIdeal, vagaCompleta, estudos }) => {
     ui.renderPerfil(perfilBox, candidato, proximoIdAnalise());
-    ui.renderDestaque(destaque, vagaIdeal, estudos);
+    ui.renderDestaque(destaque, vagaIdeal, vagaCompleta, estudos);
     desenharCards(resultados, vagaIdeal.vaga.id);
     document.querySelector("#passo-2").hidden = false;
     document.querySelector("#passo-3").hidden = false;

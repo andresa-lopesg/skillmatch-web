@@ -50,6 +50,12 @@ export class Vaga {
     return this.requisitos.filter((req) => minhas.includes(normalizar(req)));
   }
 
+  // RF06 — every: o candidato atende TODOS os requisitos desta vaga?
+  atendeTodos(candidato) {
+    const minhas = candidato.habilidades.map(normalizar);
+    return this.requisitos.every((req) => minhas.includes(normalizar(req)));
+  }
+
   calcularCompatibilidade(faltantes) {
     const total = this.requisitos.length;
     if (total === 0) return 0; // sem requisitos não dá para dividir (evita NaN)
@@ -109,7 +115,8 @@ export function analisarVagas(candidato, vagas) {
       percentual,
       classificacao: classificarCompatibilidade(percentual),
       encontradas: vaga.obterEncontradas(candidato),
-      faltantes
+      faltantes,
+      atendeTodos: vaga.atendeTodos(candidato)
     };
   });
 
@@ -127,6 +134,11 @@ export function encontrarVagaIdeal(resultados) {
   return resultados.reduce((melhor, atual) => {
     return atual.percentual > melhor.percentual ? atual : melhor;
   }, resultados[0]);
+}
+
+// RF06 — find: primeira vaga (na ordem do ranking) em que a pessoa já atende tudo
+export function encontrarVagaCompleta(resultados) {
+  return resultados.find((resultado) => resultado.atendeTodos);
 }
 
 // RF05 — recomendação (igual ao mini): quanto mais vagas exigem a habilidade, mais alto ela fica
@@ -155,8 +167,9 @@ export function priorizarEstudos(listaFaltantes) {
 export function executarAnalise(candidato, vagas, aoTerminar) {
   const resultados = analisarVagas(candidato, vagas);
   const vagaIdeal = encontrarVagaIdeal(resultados);
+  const vagaCompleta = encontrarVagaCompleta(resultados); // undefined se nenhuma
   const todasFaltantes = [];
   resultados.forEach((r) => todasFaltantes.push(...r.faltantes));
   const estudos = priorizarEstudos(todasFaltantes).slice(0, 3);
-  aoTerminar({ resultados, vagaIdeal, estudos });
+  aoTerminar({ resultados, vagaIdeal, vagaCompleta, estudos });
 }

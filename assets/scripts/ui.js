@@ -80,7 +80,7 @@ export function renderPerfil(elemento, candidato, totalAnalises) {
   elemento.hidden = false;
 }
 
-export function renderDestaque(elemento, melhor, estudos) {
+export function renderDestaque(elemento, melhor, vagaCompleta, estudos) {
   elemento.innerHTML = "";
   const titulo = document.createElement("h3");
   titulo.textContent = "Vaga mais compatível";
@@ -90,6 +90,13 @@ export function renderDestaque(elemento, melhor, estudos) {
   // exibirResumo() vem da classe: VagaFrontend acrescenta nível e modalidade
   vaga.textContent = `${melhor.resumo} · ${melhor.percentual}%`;
 
+  // find: vaga em que a pessoa já atende todos os requisitos (pode não existir)
+  const completa = document.createElement("p");
+  completa.className = "destaque__extra";
+  completa.textContent = vagaCompleta
+    ? `Você já atende todos os requisitos de ${vagaCompleta.vaga.cargo} na ${vagaCompleta.vaga.empresa}.`
+    : "Nenhuma vaga ainda tem todos os requisitos cobertos por você.";
+
   const tituloEstudo = document.createElement("h3");
   tituloEstudo.className = "destaque__estudo";
   tituloEstudo.textContent = "O que estudar primeiro";
@@ -97,7 +104,7 @@ export function renderDestaque(elemento, melhor, estudos) {
 
   if (estudos.length === 0) {
     texto.textContent = "Você já cobre todos os requisitos das vagas. Hora de se candidatar!";
-    elemento.append(titulo, vaga, tituloEstudo, texto);
+    elemento.append(titulo, vaga, completa, tituloEstudo, texto);
   } else {
     texto.textContent = "As habilidades que mais aparecem nas vagas e que você ainda não tem:";
     const lista = document.createElement("ol");
@@ -106,7 +113,7 @@ export function renderDestaque(elemento, melhor, estudos) {
       item.textContent = estudo;
       lista.append(item);
     });
-    elemento.append(titulo, vaga, tituloEstudo, texto, lista);
+    elemento.append(titulo, vaga, completa, tituloEstudo, texto, lista);
   }
   elemento.hidden = false;
 }
