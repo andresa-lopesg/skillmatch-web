@@ -5,6 +5,8 @@ import {
   salvarPerfil,
   carregarPerfil,
   limparPerfil,
+  salvarTema,
+  carregarTema,
   obterLocalizacao
 } from "./dados.js";
 import * as ui from "./ui.js";
@@ -16,6 +18,7 @@ const perfilBox = document.querySelector("#resumo-perfil");
 const destaque = document.querySelector("#destaque");
 const filtroModalidade = document.querySelector("#filtro-modalidade");
 const ordenacao = document.querySelector("#ordenacao");
+const botaoTema = document.querySelector("#botao-tema");
 const botaoLimpar = document.querySelector("#botao-limpar");
 const botaoLocalizacao = document.querySelector("#botao-localizacao");
 
@@ -164,9 +167,16 @@ botaoLocalizacao.addEventListener("click", async () => {
   }
 });
 
-// Ao abrir a página: já busca as vagas e recupera o perfil salvo
+botaoTema.addEventListener("click", () => {
+  const novo = document.documentElement.dataset.tema === "escuro" ? "claro" : "escuro";
+  salvarTema(novo);
+  ui.aplicarTema(novo, botaoTema);
+});
+
+// Ao abrir a página: aplica o tema, já busca as vagas e recupera o perfil salvo
 async function iniciar() {
   document.querySelector("#aviso-js").hidden = true; // se este código rodou, os módulos carregaram
+  ui.aplicarTema(carregarTema(), botaoTema);
   const perfilSalvo = carregarPerfil(); // null na primeira visita
   if (perfilSalvo !== null) {
     ui.preencherFormulario(form, perfilSalvo); // o perfil volta preenchido

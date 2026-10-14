@@ -199,6 +199,14 @@ export function renderCards(container, resultados, idMelhor) {
   resultados.forEach((resultado) => container.append(criarCard(resultado, idMelhor)));
 }
 
+// Bônus — tema claro/escuro
+export function aplicarTema(tema, botao) {
+  document.documentElement.dataset.tema = tema;
+  botao.setAttribute("aria-pressed", tema === "escuro" ? "true" : "false");
+  // Só ícone: o texto para leitor de tela fica no aria-label
+  botao.setAttribute("aria-label", tema === "escuro" ? "Ativar tema claro" : "Ativar tema escuro");
+}
+
 // Etapas do painel lateral: as anteriores ficam "feitas" e a atual em destaque
 export function marcarEtapa(atual) {
   for (let i = 1; i <= 3; i++) {

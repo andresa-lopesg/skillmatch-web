@@ -213,6 +213,42 @@ a {
   background: linear-gradient(160deg, var(--painel), var(--moldura));
 }
 
+/* Botão de tema no canto superior direito do painel */
+.botao-icone {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid var(--linha);
+  border-radius: 50%;
+  background: var(--campo);
+  color: var(--destaque-forte);
+  cursor: pointer;
+}
+
+.botao-icone:hover {
+  border-color: var(--destaque);
+}
+
+/* Lua no tema claro, sol no escuro */
+.icone-sol {
+  display: none;
+}
+
+:root[data-tema="escuro"] .icone-sol {
+  display: block;
+}
+
+:root[data-tema="escuro"] .icone-lua {
+  display: none;
+}
+
 .passo {
   display: flex;
   flex-direction: column;
