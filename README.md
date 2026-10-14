@@ -6,7 +6,7 @@ Projeto Avaliativo do Módulo 01 — Desenvolvedor Front-End [React], Turma 03 (
 
 - **Aplicação publicada (GitHub Pages):** https://andresa-lopesg.github.io/skillmatch-web/
 - **Quadro Kanban (Trello):** [link do quadro](https://trello.com/b/UaK33teF)
-- **Vídeo de apresentação:** [assistir no Google Drive](COLE_AQUI_O_LINK_DO_VIDEO)
+- **Vídeo de apresentação:** [assistir no Loom](https://www.loom.com/share/e6cf5b9089d54944adde08a9bcd8f172)
 
 
 ## Qual problema ele resolve
