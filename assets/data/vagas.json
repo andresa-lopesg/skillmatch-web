@@ -1,0 +1,97 @@
+[
+  {
+    "id": 1,
+    "empresa": "Pixel Sul Tecnologia",
+    "cargo": "Desenvolvedor(a) Front-End",
+    "requisitos": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Git",
+      "Responsividade"
+    ],
+    "salario": 3200,
+    "modalidade": "Remoto",
+    "cidade": "Florianópolis/SC",
+    "nivel": "Júnior"
+  },
+  {
+    "id": 2,
+    "empresa": "Ilha Digital",
+    "cargo": "Desenvolvedor(a) React",
+    "requisitos": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "React",
+      "Git",
+      "API REST"
+    ],
+    "salario": 4200,
+    "modalidade": "Híbrido",
+    "cidade": "São José/SC",
+    "nivel": "Júnior"
+  },
+  {
+    "id": 3,
+    "empresa": "Vale Software",
+    "cargo": "Estagiário(a) de Desenvolvimento Web",
+    "requisitos": [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Lógica de programação"
+    ],
+    "salario": 1500,
+    "modalidade": "Presencial",
+    "cidade": "Blumenau/SC",
+  },
+  {
+    "id": 4,
+    "empresa": "Norte Labs",
+    "cargo": "Desenvolvedor(a) Front-End",
+    "requisitos": [
+      "JavaScript",
+      "TypeScript",
+      "React",
+      "Testes",
+      "Git",
+      "Acessibilidade"
+    ],
+    "salario": 6500,
+    "modalidade": "Remoto",
+    "cidade": "Joinville/SC",
+    "nivel": "Pleno"
+  },
+  {
+    "id": 5,
+    "empresa": "Serra UX",
+    "cargo": "Desenvolvedor(a) de Interfaces",
+    "requisitos": [
+      "HTML",
+      "CSS",
+      "Acessibilidade",
+      "Figma",
+      "Responsividade"
+    ],
+    "salario": 3800,
+    "modalidade": "Híbrido",
+    "cidade": "Lages/SC",
+    "nivel": "Júnior"
+  },
+  {
+    "id": 6,
+    "empresa": "Litoral Commerce",
+    "cargo": "Desenvolvedor(a) Web",
+    "requisitos": [
+      "JavaScript",
+      "Node.js",
+      "SQL",
+      "Git",
+      "API REST"
+    ],
+    "salario": 4800,
+    "modalidade": "Presencial",
+    "cidade": "Itajaí/SC",
+  }
+]
