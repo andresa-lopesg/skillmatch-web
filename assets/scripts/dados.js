@@ -46,3 +46,27 @@ export function carregarPerfil() {
 export function limparPerfil() {
   localStorage.removeItem(CHAVE_PERFIL);
 }
+
+
+// Bônus — Browser API (Geolocation) embrulhada numa Promise.
+// Nada é salvo: a posição só é usada para calcular a distância até as vagas.
+export function obterLocalizacao() {
+  return new Promise((resolve, reject) => {
+    if (!("geolocation" in navigator)) {
+      reject(new Error("Seu navegador não oferece localização."));
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (posicao) => resolve({ lat: posicao.coords.latitude, lon: posicao.coords.longitude }),
+      (erro) => {
+        const mensagens = {
+          1: "Permissão de localização negada. As vagas continuam na ordem de compatibilidade.",
+          2: "Não foi possível descobrir sua localização agora.",
+          3: "A localização demorou demais para responder."
+        };
+        reject(new Error(mensagens[erro.code] || "Erro ao obter a localização."));
+      },
+      { timeout: 10000 }
+    );
+  });
+}

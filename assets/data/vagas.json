@@ -13,6 +13,8 @@
     "salario": 3200,
     "modalidade": "Remoto",
     "cidade": "Florianópolis/SC",
+    "lat": -27.5954,
+    "lon": -48.548,
     "nivel": "Júnior"
   },
   {
@@ -30,6 +32,8 @@
     "salario": 4200,
     "modalidade": "Híbrido",
     "cidade": "São José/SC",
+    "lat": -27.6136,
+    "lon": -48.6366,
     "nivel": "Júnior"
   },
   {
@@ -45,6 +49,8 @@
     "salario": 1500,
     "modalidade": "Presencial",
     "cidade": "Blumenau/SC",
+    "lat": -26.9194,
+    "lon": -49.0661
   },
   {
     "id": 4,
@@ -61,6 +67,8 @@
     "salario": 6500,
     "modalidade": "Remoto",
     "cidade": "Joinville/SC",
+    "lat": -26.3045,
+    "lon": -48.8487,
     "nivel": "Pleno"
   },
   {
@@ -77,6 +85,8 @@
     "salario": 3800,
     "modalidade": "Híbrido",
     "cidade": "Lages/SC",
+    "lat": -27.8157,
+    "lon": -50.3264,
     "nivel": "Júnior"
   },
   {
@@ -93,5 +103,7 @@
     "salario": 4800,
     "modalidade": "Presencial",
     "cidade": "Itajaí/SC",
+    "lat": -26.9078,
+    "lon": -48.6619
   }
 ]

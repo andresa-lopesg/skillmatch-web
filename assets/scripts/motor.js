@@ -24,7 +24,7 @@ export function criarCandidato({ nome, vagaInteresse, habilidades, experienciaAn
 
 // RF07 — classe base
 export class Vaga {
-  constructor({ id, empresa, cargo, requisitos, salario, modalidade, cidade }) {
+  constructor({ id, empresa, cargo, requisitos, salario, modalidade, cidade, lat, lon }) {
     this.id = id;
     this.empresa = empresa;
     this.cargo = cargo;
@@ -32,6 +32,7 @@ export class Vaga {
     this.salario = salario;
     this.modalidade = modalidade;
     this.cidade = cidade;
+    this.coordenadas = { lat, lon }; // usado no bônus de localização
   }
 
   exibirResumo() {
@@ -48,6 +49,12 @@ export class Vaga {
   obterEncontradas(candidato) {
     const minhas = candidato.habilidades.map(normalizar);
     return this.requisitos.filter((req) => minhas.includes(normalizar(req)));
+  }
+
+  // RF06 — every: o candidato atende TODOS os requisitos desta vaga?
+  atendeTodos(candidato) {
+    const minhas = candidato.habilidades.map(normalizar);
+    return this.requisitos.every((req) => minhas.includes(normalizar(req)));
   }
 
   calcularCompatibilidade(faltantes) {
@@ -109,7 +116,8 @@ export function analisarVagas(candidato, vagas) {
       percentual,
       classificacao: classificarCompatibilidade(percentual),
       encontradas: vaga.obterEncontradas(candidato),
-      faltantes
+      faltantes,
+      atendeTodos: vaga.atendeTodos(candidato)
     };
   });
 
@@ -127,6 +135,23 @@ export function encontrarVagaIdeal(resultados) {
   return resultados.reduce((melhor, atual) => {
     return atual.percentual > melhor.percentual ? atual : melhor;
   }, resultados[0]);
+}
+
+// RF06 — find: primeira vaga (na ordem do ranking) em que a pessoa já atende tudo
+export function encontrarVagaCompleta(resultados) {
+  return resultados.find((resultado) => resultado.atendeTodos);
+}
+
+// Bônus (Geolocation) — distância em km entre dois pontos (fórmula de Haversine)
+export function calcularDistanciaKm(origem, destino) {
+  const raioTerra = 6371;
+  const paraRad = (graus) => (graus * Math.PI) / 180;
+  const dLat = paraRad(destino.lat - origem.lat);
+  const dLon = paraRad(destino.lon - origem.lon);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(paraRad(origem.lat)) * Math.cos(paraRad(destino.lat)) * Math.sin(dLon / 2) ** 2;
+  return Math.round(raioTerra * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
 }
 
 // RF05 — recomendação (igual ao mini): quanto mais vagas exigem a habilidade, mais alto ela fica
@@ -155,8 +180,9 @@ export function priorizarEstudos(listaFaltantes) {
 export function executarAnalise(candidato, vagas, aoTerminar) {
   const resultados = analisarVagas(candidato, vagas);
   const vagaIdeal = encontrarVagaIdeal(resultados);
+  const vagaCompleta = encontrarVagaCompleta(resultados); // undefined se nenhuma
   const todasFaltantes = [];
   resultados.forEach((r) => todasFaltantes.push(...r.faltantes));
   const estudos = priorizarEstudos(todasFaltantes).slice(0, 3);
-  aoTerminar({ resultados, vagaIdeal, estudos });
+  aoTerminar({ resultados, vagaIdeal, vagaCompleta, estudos });
 }

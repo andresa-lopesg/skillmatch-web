@@ -1,10 +1,11 @@
 // main.js — o FLUXO: liga dados (dados.js) + regras (motor.js) + tela (ui.js)
-import { criarCandidato, criarContador, executarAnalise } from "./motor.js";
+import { criarCandidato, criarContador, executarAnalise, calcularDistanciaKm } from "./motor.js";
 import {
   carregarVagas,
   salvarPerfil,
   carregarPerfil,
-  limparPerfil
+  limparPerfil,
+  obterLocalizacao
 } from "./dados.js";
 import * as ui from "./ui.js";
 
@@ -16,9 +17,11 @@ const destaque = document.querySelector("#destaque");
 const filtroModalidade = document.querySelector("#filtro-modalidade");
 const ordenacao = document.querySelector("#ordenacao");
 const botaoLimpar = document.querySelector("#botao-limpar");
+const botaoLocalizacao = document.querySelector("#botao-localizacao");
 
 const proximoIdAnalise = criarContador(); // closure, igual ao mini
 let vagas = []; // guardadas depois do primeiro fetch
+let minhaPosicao = null; // preenchida só se a pessoa permitir a localização
 
 // RF13 — os 3 estados: carregando, vazio, erro
 async function obterVagas() {
@@ -46,6 +49,9 @@ function aplicarFiltroEOrdem(resultados) {
     case "empresa":
       copia.sort((a, b) => a.vaga.empresa.localeCompare(b.vaga.empresa));
       break;
+    case "distancia":
+      copia.sort((a, b) => a.distanciaKm - b.distanciaKm);
+      break;
     default:
       break; // "compatibilidade": o motor já entrega nessa ordem
   }
@@ -63,9 +69,9 @@ async function analisar(candidato) {
   }
 
   // RF08 — callback: a função passada roda quando a análise termina
-  executarAnalise(candidato, lista, ({ resultados, vagaIdeal, estudos }) => {
+  executarAnalise(candidato, lista, ({ resultados, vagaIdeal, vagaCompleta, estudos }) => {
     ui.renderPerfil(perfilBox, candidato, proximoIdAnalise());
-    ui.renderDestaque(destaque, vagaIdeal, estudos);
+    ui.renderDestaque(destaque, vagaIdeal, vagaCompleta, estudos);
     desenharCards(resultados, vagaIdeal.vaga.id);
     document.querySelector("#passo-2").hidden = false;
     document.querySelector("#passo-3").hidden = false;
@@ -74,7 +80,14 @@ async function analisar(candidato) {
 
 let ultimoResultado = { resultados: [], idMelhor: null };
 
+// Se a pessoa liberou a localização, cada resultado ganha a distância até a vaga
+function comDistancia(resultados) {
+  if (minhaPosicao === null) return resultados;
+  return resultados.map((r) => ({ ...r, distanciaKm: calcularDistanciaKm(minhaPosicao, r.vaga.coordenadas) }));
+}
+
 function desenharCards(resultados, idMelhor) {
+  resultados = comDistancia(resultados);
   ultimoResultado = { resultados, idMelhor };
   const visiveis = aplicarFiltroEOrdem(resultados);
   if (visiveis.length === 0) {
@@ -120,6 +133,19 @@ botaoLimpar.addEventListener("click", () => {
   ui.esconderStatus(status);
   document.querySelector("#passo-2").hidden = true;
   document.querySelector("#passo-3").hidden = true;
+});
+
+// Bônus — Geolocation, tratando permissão negada
+botaoLocalizacao.addEventListener("click", async () => {
+  ui.mostrarStatus(status, "carregando", "Buscando sua localização…");
+  try {
+    minhaPosicao = await obterLocalizacao();
+    ordenacao.querySelector('option[value="distancia"]').disabled = false;
+    ordenacao.value = "distancia";
+    desenharCards(ultimoResultado.resultados, ultimoResultado.idMelhor);
+  } catch (erro) {
+    ui.mostrarStatus(status, "erro", erro.message);
+  }
 });
 
 // Ao abrir a página: já busca as vagas e recupera o perfil salvo
