@@ -1,0 +1,705 @@
+/* index.style.css — mobile-first: o padrão é o celular, as media queries ampliam */
+/* Layout de cadastro em etapas: moldura branca, painel lateral menta com as etapas
+   e painel de conteúdo cinza-claro com campos de rótulo flutuante */
+
+:root {
+  --fundo: #cdeee6;
+  --moldura: #ffffff;
+  --lateral: #eef8f6;
+  --painel: #f6f7f7;
+  --campo: #ffffff;
+  --texto: #1f2627;
+  --texto-suave: #687172;
+  --linha: #e1e5e5;
+  --linha-forte: #c9cfcf;
+  --etapa-inativa: #e3e7e7;
+  --destaque: #1f7d72;
+  --destaque-forte: #17655c;
+  --destaque-texto: #ffffff;
+  --alta: #1f7d72;
+  --media: #8a5d00;
+  --baixa: #b23b2e;
+  --ok-fundo: #e2f3ef;
+  --falta-fundo: #fbe9e6;
+  --sombra: 0 1.75rem 3.5rem rgba(31, 90, 82, 0.16);
+  --fonte: "Lato", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --raio: 4px;
+}
+
+/* Tema escuro: vale quando o <html> tem data-tema="escuro" */
+:root[data-tema="escuro"] {
+  --fundo: #0e1b1a;
+  --moldura: #142120;
+  --lateral: #1a2c2a;
+  --painel: #172423;
+  --campo: #1d2c2b;
+  --texto: #e4efed;
+  --texto-suave: #9fb0ae;
+  --linha: #2a3b39;
+  --linha-forte: #3a4d4b;
+  --etapa-inativa: #2a3b39;
+  --destaque: #5cc4b4;
+  --destaque-forte: #7fd6c8;
+  --destaque-texto: #0b201d;
+  --alta: #6fd1c1;
+  --media: #e8b75e;
+  --baixa: #f08f80;
+  --ok-fundo: #1e3a35;
+  --falta-fundo: #3d2623;
+  --sombra: 0 1.75rem 3.5rem rgba(0, 0, 0, 0.45);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Garante que o atributo hidden esconda mesmo elementos com display: flex */
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  padding: 1rem;
+  font-family: var(--fonte);
+  font-size: 1rem;
+  line-height: 1.5;
+  background: var(--fundo);
+  color: var(--texto);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+  margin: 0;
+}
+
+a {
+  color: var(--destaque-forte);
+}
+
+:focus-visible {
+  outline: 2px solid var(--destaque);
+  outline-offset: 2px;
+}
+
+.pular {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  padding: 0.5rem 1rem;
+  background: var(--destaque);
+  color: var(--destaque-texto);
+}
+
+.pular:focus {
+  left: 0.5rem;
+  top: 0.5rem;
+}
+
+/* ---------- Moldura (cartão branco com o painel dentro) ---------- */
+.app {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 0.75rem;
+  background: var(--moldura);
+  border-radius: 1.25rem;
+  box-shadow: var(--sombra);
+}
+
+.moldura {
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.85rem;
+  overflow: hidden;
+}
+
+/* ---------- Painel lateral (header) ---------- */
+.lateral {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  background: var(--lateral);
+}
+
+.lateral__logo {
+  width: 6.5rem;
+}
+
+/* Tipografia fluida: clamp(mínimo, valor que cresce com a tela, máximo) */
+.lateral h1 {
+  font-size: clamp(1.35rem, 1.1rem + 1vw, 1.6rem);
+  font-weight: 400;
+}
+
+/* Etapas: no celular em linha; no desktop em coluna com a linha ligando os números */
+.etapas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.etapa {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--texto-suave);
+  font-size: 0.95rem;
+}
+
+.etapa__marca {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  background: var(--etapa-inativa);
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+}
+
+/* ---------- Painel de conteúdo ---------- */
+.conteudo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+  padding: 1.5rem;
+  background: linear-gradient(160deg, var(--painel), var(--moldura));
+}
+
+.passo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.rotulo-secao {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--texto);
+}
+
+.rotulo-secao:focus {
+  outline: none;
+}
+
+.aviso-js,
+.status {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: var(--raio);
+  font-size: 0.9rem;
+}
+
+/* Estilo base do status (carregando). Vem antes dos modificadores
+   para que erro e vazio consigam trocar a cor e o fundo. */
+.status {
+  background: var(--campo);
+  border: 1px solid var(--linha);
+  color: var(--texto-suave);
+}
+
+/* Sem texto, o status some só visualmente: sem display: none, a região viva
+   continua na árvore de acessibilidade e o leitor de tela anuncia a próxima mensagem.
+   A margem negativa cancela o gap de 1rem do .conteudo, para não sobrar espaço. */
+.status:empty {
+  padding: 0;
+  border: 0;
+  margin: 0 0 -1rem;
+}
+
+.aviso-js,
+.status--erro {
+  background: var(--falta-fundo);
+  border-color: var(--baixa);
+  color: var(--baixa);
+}
+
+/* Vazio não é erro: borda amarela e texto normal */
+.status--vazio {
+  border-color: var(--media);
+  color: var(--texto);
+}
+
+/* ---------- Formulário com rótulo flutuante ---------- */
+#form-perfil {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#form-perfil .rotulo-secao {
+  margin-top: 0.5rem;
+}
+
+.linha {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.campo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+input,
+select {
+  font: inherit;
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  background: var(--campo);
+  color: var(--texto);
+}
+
+input:hover,
+select:hover {
+  border-color: var(--linha-forte);
+}
+
+/* Foco visível: a borda muda de cor e o contorno de :focus-visible (lá em cima) continua aparecendo */
+input:focus,
+select:focus {
+  border-color: var(--destaque);
+}
+
+/* O rótulo fica dentro do campo e sobe para a borda quando o campo tem foco ou valor */
+.campo label {
+  position: absolute;
+  left: 0.65rem;
+  top: 0.75rem;
+  padding: 0 0.3rem;
+  color: var(--texto-suave);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  pointer-events: none;
+  transition: top 0.15s, font-size 0.15s, color 0.15s;
+}
+
+.campo input:focus + label,
+.campo input:not(:placeholder-shown) + label,
+.campo--select label {
+  top: -0.6rem;
+  font-size: 0.72rem;
+  background: var(--campo);
+}
+
+.campo input:focus + label,
+.campo select:focus + label {
+  color: var(--destaque-forte);
+}
+
+input[aria-invalid="true"],
+select[aria-invalid="true"] {
+  border-color: var(--baixa);
+}
+
+.dica,
+.erro {
+  margin: 0;
+  font-size: 0.72rem;
+}
+
+.dica {
+  color: var(--texto-suave);
+}
+
+.erro {
+  color: var(--baixa);
+}
+
+.erro:empty {
+  display: none;
+}
+
+/* Rodapé de cada etapa: linha divisória, ação secundária à esquerda e principal à direita */
+.acoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--linha-forte);
+}
+
+.botao {
+  font: inherit;
+  padding: 0.65rem 1.75rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--destaque);
+  color: var(--destaque-texto);
+  cursor: pointer;
+}
+
+.botao:hover {
+  background: var(--destaque-forte);
+}
+
+.botao-contorno {
+  font: inherit;
+  font-size: 0.9rem;
+  min-height: 3rem;
+  padding: 0 1.1rem;
+  border: 1px solid var(--destaque);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--destaque-forte);
+  cursor: pointer;
+}
+
+.botao-contorno:hover {
+  background: var(--ok-fundo);
+}
+
+.botao-texto {
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 0.25rem 0;
+  border: 0;
+  background: none;
+  color: var(--texto-suave);
+  cursor: pointer;
+}
+
+.botao-texto:hover {
+  color: var(--texto);
+  text-decoration: underline;
+}
+
+/* ---------- Etapa 2: vaga ideal ---------- */
+.resumo h3 {
+  font-size: clamp(1.1rem, 1rem + 0.5vw, 1.35rem);
+  font-weight: 400;
+}
+
+.resumo p {
+  margin: 0.2rem 0 0;
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+}
+
+.destaque {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  background: var(--campo);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+}
+
+.destaque h3 {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--destaque-forte);
+}
+
+.destaque p {
+  margin: 0;
+}
+
+.destaque__vaga {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.destaque__extra {
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+}
+
+.destaque__estudo {
+  margin-top: 0.75rem;
+}
+
+.destaque ol {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+/* ---------- Etapa 3: todas as vagas ---------- */
+.controles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1rem;
+  padding-top: 0.5rem;
+}
+
+.controles .campo {
+  flex: 1 1 10rem;
+}
+
+/* Cards: Flexbox com flex-wrap + gap (RF11) */
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.card {
+  flex: 1 1 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 1.1rem;
+  background: var(--campo);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+}
+
+.card--melhor {
+  border-color: var(--destaque);
+}
+
+.card__topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.card h3 {
+  font-size: 1rem;
+}
+
+.card__empresa {
+  margin: 0.2rem 0 0;
+  color: var(--texto-suave);
+  font-size: 0.88rem;
+}
+
+.card__numero {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.card__classe {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.card__classe::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.card--alta .card__classe { color: var(--alta); }
+.card--media .card__classe { color: var(--media); }
+.card--baixa .card__classe { color: var(--baixa); }
+
+.barra {
+  height: 4px;
+  background: var(--etapa-inativa);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.barra span {
+  display: block;
+  height: 100%;
+  background: currentColor;
+}
+
+.card--alta .barra { color: var(--alta); }
+.card--media .barra { color: var(--media); }
+.card--baixa .barra { color: var(--baixa); }
+
+.card__detalhes {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+}
+
+.card h4 {
+  margin: 0 0 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--texto-suave);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tag {
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+}
+
+.tag--ok {
+  background: var(--ok-fundo);
+  color: var(--destaque-forte);
+}
+
+.tag--falta {
+  background: var(--falta-fundo);
+  color: var(--baixa);
+}
+
+.tag--neutra {
+  color: var(--texto-suave);
+}
+
+/* ---------- Rodapé ---------- */
+.rodape {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 64rem;
+  margin: 1.25rem auto 0;
+  padding: 0 0.25rem 1rem;
+  color: var(--texto);
+  font-size: 0.8rem;
+}
+
+.rodape p {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.rodape ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rodape a {
+  color: var(--texto);
+}
+
+/* ---------- Tablet ---------- */
+@media (min-width: 40em) {
+  body {
+    padding: 2rem;
+  }
+
+  .linha {
+    flex-direction: row;
+  }
+
+  .linha .campo {
+    flex: 1 1 0;
+  }
+
+  .linha .campo--largo {
+    flex: 2 1 0;
+  }
+
+  .lateral,
+  .conteudo {
+    padding: 2rem;
+  }
+
+  .card {
+    flex: 1 1 calc(50% - 1rem);
+  }
+
+  .rodape {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+/* ---------- Desktop: painel lateral à esquerda ---------- */
+@media (min-width: 64em) {
+  body {
+    padding: 3.5rem 2rem;
+  }
+
+  .app {
+    padding: 1rem;
+  }
+
+  .moldura {
+    flex-direction: row;
+    min-height: 38rem;
+  }
+
+  .lateral {
+    flex: 0 0 18rem;
+    gap: 0;
+    padding: 2.75rem 2.25rem;
+  }
+
+  .lateral h1 {
+    margin: 3rem 0 2.25rem;
+  }
+
+  .etapas {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .conteudo {
+    flex: 1 1 auto;
+    padding: 2.75rem 2.5rem 2rem;
+  }
+
+  .passo {
+    flex: 1 1 auto;
+  }
+
+  /* Empurra o rodapé da etapa para baixo */
+  .passo .acoes {
+    margin-top: auto;
+  }
+
+  #form-perfil {
+    flex: 1 1 auto;
+  }
+}
